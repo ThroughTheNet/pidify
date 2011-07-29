@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Pidify</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Pidify</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/pidify_rb.html">
+                pidify.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Use the module methods in <a href="Pidify.html">Pidify</a> to save/delete
+the PID of a running script, or kill a running script using a saved PID.
+</p>
+<p>
+Example:
+</p>
+<pre>
+  require 'pidify'
+  Pidify.running?  # =&gt; false
+  Pidify.start
+  Pidify.running?  # =&gt; true
+  puts &quot;I am running with PID #{Pidify.pid}!&quot;
+  Pidify.stop
+  Pidify.running?  # =&gt; false
+</pre>
+<p>
+A more useful example:
+</p>
+<pre>
+  require 'pidify'
+  Signal.trap('INT') { Pidify.stop; exit }
+  module Doer
+    def self.start
+      puts &quot;starting&quot;
+      Pidify.start_as_daemon
+      loop do
+        puts &quot;hello world&quot;
+        sleep 1
+      end
+    end
+  end
+  if ARGV.include? 'stop'
+    Pidify.stop
+    puts &quot;Daemon stopped.&quot;
+  else
+    puts &quot;Daemon starting.&quot;
+    Doer.start
+  end
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000013">daemonize</a>&nbsp;&nbsp;
+      <a href="#M000008">delete_pid</a>&nbsp;&nbsp;
+      <a href="#M000006">pid</a>&nbsp;&nbsp;
+      <a href="#M000001">pid_directory</a>&nbsp;&nbsp;
+      <a href="#M000002">pid_directory=</a>&nbsp;&nbsp;
+      <a href="#M000011">pid_end</a>&nbsp;&nbsp;
+      <a href="#M000004">pid_exists?</a>&nbsp;&nbsp;
+      <a href="#M000003">pid_file</a>&nbsp;&nbsp;
+      <a href="#M000005">running?</a>&nbsp;&nbsp;
+      <a href="#M000007">save_pid</a>&nbsp;&nbsp;
+      <a href="#M000009">start</a>&nbsp;&nbsp;
+      <a href="#M000012">start_as_daemon</a>&nbsp;&nbsp;
+      <a href="#M000010">stop</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000013.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000013.html');return false;">
+          <span class="method-name">daemonize</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Daemonizes this process. Does not automatically use a PID file. If you want
+to use a PID file, you must call <a
+href="Pidify.html#M000009">Pidify.start</a> after the call to <a
+href="Pidify.html#M000013">daemonize</a> or use <a
+href="Pidify.html#M000012">Pidify.start_as_daemon</a>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000008.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000008.html');return false;">
+          <span class="method-name">delete_pid</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Deletes the PID file. Calling <a href="Pidify.html#M000010">stop</a> calls
+this automatically, but will also try to send a kill signal to the running
+process, if it is different from this one. BEWARE that this tries to delete
+whatever file is returned by <a href="Pidify.html#M000003">pid_file</a> and
+does no error checking on it! Returns true if the delete was successful,
+false if there was an error, and nil if the <a
+href="Pidify.html#M000006">pid</a> file doesn&#8216;t exist.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000006.html');return false;">
+          <span class="method-name">pid</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the PID stored in the <a href="Pidify.html#M000003">pid_file</a>
+(not necessarily the PID of this script). Returns nil if no PID exists or
+if there is a problem with the read.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000001.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000001.html');return false;">
+          <span class="method-name">pid_directory</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the Pathname of the PID storage directory (defaults to /var/run).
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000002.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000002.html');return false;">
+          <span class="method-name">pid_directory=</span><span class="method-args">(dir)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets the PID storage directory (defaults to /var/run). Be VERY CAREFUL
+using this, as <a href="Pidify.html#M000008">delete_pid</a> will try to
+delete whatever file it thinks is the <a
+href="Pidify.html#M000003">pid_file</a> for this script in the <a
+href="Pidify.html#M000001">pid_directory</a>. It&#8216;s probably a good
+idea not to change this at all.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000011.html');return false;">
+          <span class="method-name">pid_end</span><span class="method-args">(signals=%w(SIGTERM SIGQUIT SIGKILL), secs_between_signal=4)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sends each kill signal to the saved PID, pausing for secs_between_signal
+after each to check if it the process remains running. Stops when the
+process has ended or when all signals have been tried. Returns true if the
+process was killed or false otherwise.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000004.html');return false;">
+          <span class="method-name">pid_exists?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the <a href="Pidify.html#M000003">pid_file</a> exists for
+this script.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000003.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000003.html');return false;">
+          <span class="method-name">pid_file</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the PID filename as a Pathname.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000005.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000005.html');return false;">
+          <span class="method-name">running?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the process using <a href="Pidify.html#M000006">pid</a> is
+running.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000007.html');return false;">
+          <span class="method-name">save_pid</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Saves the PID of this script into the <a
+href="Pidify.html#M000003">pid_file</a>. Automatically called by <a
+href="Pidify.html#M000009">start</a>. Returns nil if the <a
+href="Pidify.html#M000006">pid</a> file already exists. Returns true if
+successful, false if there was a write problem.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000009.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000009.html');return false;">
+          <span class="method-name">start</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Saves the PID of this script into the <a
+href="Pidify.html#M000003">pid_file</a> by calling <a
+href="Pidify.html#M000007">save_pid</a>. Raises an exception if <a
+href="Pidify.html#M000004">pid_exists?</a> returns false. Returns true if
+successful.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000012.html');return false;">
+          <span class="method-name">start_as_daemon</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Like <a href="Pidify.html#M000009">Pidify.start</a>, but first calls <a
+href="Pidify.html#M000013">Pidify.daemonize</a>. Will fail and raise an
+exception if Pidify.running? returns true.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="Pidify.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('Pidify.src/M000010.html');return false;">
+          <span class="method-name">stop</span><span class="method-args">(signals=%w(SIGTERM SIGQUIT SIGKILL), secs_between_signal=4)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Deletes the saved PID file and, if the PID belongs to a process different
+from this script, sends kill signals to the saved PID using <a
+href="Pidify.html#M000011">pid_end</a>. Returns true if the process was
+killed or false otherwise.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

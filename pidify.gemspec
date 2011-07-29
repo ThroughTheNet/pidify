@@ -3,12 +3,9 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "pidify"
-  s.version     = '0.2'
-  s.authors     = ["Jonathan Davies"]
-  s.email       = ["jonnie@throughthenet.com"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.version     = '0.2.1'
+  s.authors     = ["Payton Swick"]
+  s.homepage    = "http://rubyforge.org/projects/pidify/"
 
   s.rubyforge_project = "pidify"
 

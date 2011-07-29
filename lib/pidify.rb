@@ -91,6 +91,10 @@ module Pidify
     def pid_file
       @pid_directory + (Pathname.new(@file_name).basename.to_s+'.pid')
     end
+    
+    def pid_file_name=(name)
+      @file_name = name
+    end
 
     # Returns true if the pid_file exists for this script.
     def pid_exists?

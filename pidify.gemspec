@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Payton Swick"]
   s.homepage    = "http://rubyforge.org/projects/pidify/"
   s.summary     = "A Ruby module to simplify storing and deleting the PID of a running program. "
-  s.date =      = "Fri 29 Jul 2011 16:57:26 BST"
+  s.date        = "Fri 29 Jul 2011 16:57:26 BST"
   
 
   s.rubyforge_project = "pidify"
